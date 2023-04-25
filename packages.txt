@@ -1,2 +1,2 @@
 graphviz
-fonts-noto-cjk
+fonts-arphic-uming
