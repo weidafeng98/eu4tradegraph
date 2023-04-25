@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import streamlit as st
 import colorsys
 from io import BytesIO
@@ -123,9 +125,10 @@ def generate_plot(save_path, aspect_ratio, line_width_min, line_width_max, node_
             Trade_transfer_list.append(Trade_transfer(start, final, value))
 
 
-
     G = pydot.Dot(graph_type="digraph")
-
+    G.set_charset("utf-8")
+    G.set("fontname", "Noto Sans CJK JP")
+    
     G.set_ratio(str(aspect_ratio))
 
     for i in range(len(Trade_center_list)):
@@ -179,8 +182,6 @@ def gradient(start_color, end_color, width, height):
 
 # Streamlit 应用程序的主体部分
 def main():
-    os.environ["PATH"] += os.pathsep + "/usr/bin"
-
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title('欧陆风云4贸易路线图生成器V0.1.1')
 
