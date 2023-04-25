@@ -179,6 +179,8 @@ def gradient(start_color, end_color, width, height):
 
 # Streamlit 应用程序的主体部分
 def main():
+    os.environ["PATH"] += os.pathsep + "/usr/bin"
+
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title('欧陆风云4贸易路线图生成器V0.1.1')
 
