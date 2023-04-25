@@ -61,14 +61,6 @@ def generate_plot(save_path, aspect_ratio, line_width_min, line_width_max, node_
 
         return (value - min(value_list)) / (max(value_list) - min(value_list)) * (max_size - min_size) + min_size
 
-    pos_list = list()
-
-    with open("pos.txt", "rt") as txt:
-        s = txt.readlines()
-
-    for sub_s in s:
-        pos_list.append(sub_s.split()[0] + "," + sub_s.split()[1]+"!")
-
     Trade_center_info = {}
 
     with open(trade_center_path, "rt", encoding="GB2312") as txt:
