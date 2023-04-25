@@ -127,8 +127,8 @@ def generate_plot(save_path, aspect_ratio, line_width_min, line_width_max, node_
 
     G = pydot.Dot(graph_type="digraph")
     G.set_charset("utf-8")
-    G.set("fontname", "Noto Sans CJK JP")
-    
+    G.set("fontname", "AR PL UMing CN")
+
     G.set_ratio(str(aspect_ratio))
 
     for i in range(len(Trade_center_list)):
