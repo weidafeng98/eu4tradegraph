@@ -183,7 +183,7 @@ def gradient(start_color, end_color, width, height):
 # Streamlit 应用程序的主体部分
 def main():
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.title('欧陆风云4贸易路线图生成器V0.1.1')
+    st.title('欧陆风云4贸易路线图生成器V0.1.2')
 
     st.text("本应用目前还在测试中，仅对1.34版本无mod的存档进行过测试，不保证应用稳定性。")
     st.text("若发现任何问题或有任何建议，请联系本人：weidafeng98@126.com")
@@ -216,16 +216,16 @@ def main():
 
     if session_state.data is not None:
         with st.form(key="my_form"):
-            aspect_ratio = st.slider("图片长宽比（默认为2.16）", 1.0, 3.0, value = 2.16)
-            line_width_min, line_width_max = st.slider("线条宽度范围（表示该线路贸易流量，默认为4 - 20）", min_value=1, max_value=48, value=(4, 20))
-            node_size_min, node_size_max = st.slider("节点大小范围（表示从该节点提取的贸易总额，默认为1.00 - 6.00）", min_value=1.0, max_value=12.0, value=(1.0, 6.0))
-            font_size_min, font_size_max = st.slider("字体大小范围（默认为24-72）", min_value=12, max_value=144, value=(24, 72))
-            h1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），H（色相，默认为0.00）", min_value=0.0, max_value=1.0, value=0.0)
-            s1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），H（饱和度，默认为0.50）", min_value=0.0, max_value=1.0, value=0.5)
-            v1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），H（明度，默认为1.00）", min_value=0.0, max_value=1.0, value=1.0)
-            h2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），H（色相，默认为0.67）", min_value=0.0, max_value=1.0, value=2/3) 
-            s2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），H（饱和度，默认为0.50）", min_value=0.0, max_value=1.0, value=0.5) 
-            v2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），H（明度，默认为1.00）", min_value=0.0, max_value=1.0, value=1.0)
+            aspect_ratio = st.slider("图片长宽比（默认为 2.16）", 1.0, 3.0, value = 2.16)
+            line_width_min, line_width_max = st.slider("线条宽度范围（表示该线路贸易流量，默认为 4 - 20）", min_value=1, max_value=48, value=(4, 20))
+            node_size_min, node_size_max = st.slider("节点大小范围（表示从该节点提取的贸易总额，默认为 1.00 - 6.00）", min_value=1.0, max_value=12.0, value=(1.0, 6.0))
+            font_size_min, font_size_max = st.slider("字体大小范围（默认为 24 - 72）", min_value=12, max_value=144, value=(24, 72))
+            h1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），H（色相，默认为 0.00）", min_value=0.0, max_value=1.0, value=0.0)
+            s1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），S（饱和度，默认为 0.50）", min_value=0.0, max_value=1.0, value=0.5)
+            v1 = st.slider("节点颜色范围起始值（表示该节点的本地贸易产出），V（明度，默认为 1.00）", min_value=0.0, max_value=1.0, value=1.0)
+            h2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），H（色相，默认为 0.67）", min_value=0.0, max_value=1.0, value=2/3) 
+            s2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），S（饱和度，默认为 0.50）", min_value=0.0, max_value=1.0, value=0.5) 
+            v2 = st.slider("节点颜色范围终止值（表示该节点的本地贸易产出），V（明度，默认为 1.00）", min_value=0.0, max_value=1.0, value=1.0)
             submit_button = st.form_submit_button(label="获取图片")
             
         if submit_button:
