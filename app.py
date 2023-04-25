@@ -1,15 +1,14 @@
 import streamlit as st
 import colorsys
-#import pandas as pd
-#import matplotlib.pyplot as plt
 from io import BytesIO
 from PIL import Image, ImageDraw
 import os
 import re
-from graphviz import Digraph
+import graphviz
+import pydot
 
 class Trade_center:
-        def __init__(self, name, current, outgoing, local_value):
+    def __init__(self, name, current, outgoing, local_value):
             self.name = name.title()
             self.current = current
             self.outgoing = outgoing
@@ -133,34 +132,44 @@ def generate_plot(save_path, aspect_ratio, line_width_min, line_width_max, node_
 
 
 
-    G = Digraph(engine='dot')
-    #G.graph_attr.update(rankdir = "LR")
-    #G.graph_attr.update(dpi="50")
-    G.graph_attr.update(ratio = str(aspect_ratio))
+    G = pydot.Dot(graph_type="digraph")
+
+    G.set_ratio(str(aspect_ratio))
 
     for i in range(len(Trade_center_list)):
         if Trade_center_info[Trade_center_list[i].name][1] == "1":
-            G.node(Trade_center_info[Trade_center_list[i].name][0], pos = pos_list[i], shape = "box", fontname = "bold", style = "filled", fillcolor = cal_node_color(Trade_center_list[i].local_value, Trade_center_list), penwidth = "4", width = str(cal_node_size(Trade_center_list[i].current, Trade_center_list)), height = str(0.618*cal_node_size(Trade_center_list[i].current, Trade_center_list)), fontsize = str(cal_font_size(Trade_center_list[i].current, Trade_center_list)))
+            new_node = pydot.Node(
+                Trade_center_info[Trade_center_list[i].name][0],shape = "box", fontname = "bold", style = "filled", fillcolor = cal_node_color(Trade_center_list[i].local_value, Trade_center_list), penwidth = "4", width = str(cal_node_size(Trade_center_list[i].current, Trade_center_list)), height = str(0.618*cal_node_size(Trade_center_list[i].current, Trade_center_list)), fontsize = str(cal_font_size(Trade_center_list[i].current, Trade_center_list))
+            )
         else:
-            G.node(Trade_center_info[Trade_center_list[i].name][0], pos = pos_list[i], fontname = "bold", style = "filled", fillcolor = cal_node_color(Trade_center_list[i].local_value, Trade_center_list), penwidth = "4", width = str(cal_node_size(Trade_center_list[i].current, Trade_center_list)), height = str(0.618*cal_node_size(Trade_center_list[i].current, Trade_center_list)), fontsize = str(cal_font_size(Trade_center_list[i].current, Trade_center_list)))
-
+            new_node = pydot.Node(
+                Trade_center_info[Trade_center_list[i].name][0], fontname = "bold", style = "filled", fillcolor = cal_node_color(Trade_center_list[i].local_value, Trade_center_list), penwidth = "4", width = str(cal_node_size(Trade_center_list[i].current, Trade_center_list)), height = str(0.618*cal_node_size(Trade_center_list[i].current, Trade_center_list)), fontsize = str(cal_font_size(Trade_center_list[i].current, Trade_center_list))
+            )
+        
+        G.add_node(new_node)
     for edge in Trade_transfer_list:
-        if edge.value != 0:
-            G.edge(Trade_center_info[Trade_center_list[edge.start].name][0], Trade_center_info[Trade_center_list[edge.final].name][0], penwidth = str(cal_width(edge.value, Trade_transfer_list)))
+        if edge.value == 0:
+            new_edge = pydot.Edge(
+                Trade_center_info[Trade_center_list[edge.start].name][0], Trade_center_info[Trade_center_list[edge.final].name][0], style = "dashed", penwidth = str(cal_width(edge.value, Trade_transfer_list))
+            )
         else:
-            G.edge(Trade_center_info[Trade_center_list[edge.start].name][0], Trade_center_info[Trade_center_list[edge.final].name][0], style = "dashed", penwidth = str(cal_width(edge.value, Trade_transfer_list)))
+            new_edge = pydot.Edge(
+                Trade_center_info[Trade_center_list[edge.start].name][0], Trade_center_info[Trade_center_list[edge.final].name][0], penwidth = str(cal_width(edge.value, Trade_transfer_list))
+            )
+        G.add_edge(new_edge)
 
-    filename = "graph"
-    G.format = 'png'
-    G.render(filename, view=False)
+    G_graph = graphviz.Source(G.to_string())
 
-    # 加载图像到 Streamlit 应用程序
+    filename="graph"
+    format="png"
+    # Save the rendered graph as a PNG image file
+    G_graph.render(filename=filename, format=format)
 
-    filepath = os.path.join(os.getcwd(), filename)
-    image = Image.open(filepath+".png")
+    filepath = os.path.join(os.getcwd(), filename + "." + format)
+    image = Image.open(filepath)
 
     return image
-    #st.image(image, caption='贸易路线图', use_column_width=True)
+
 
 def gradient(start_color, end_color, width, height):
     img = Image.new('RGB', (width, height))
