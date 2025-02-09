@@ -182,7 +182,7 @@ def gradient(start_color, end_color, width, height):
 
 # Streamlit 应用程序的主体部分
 def main():
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+    #st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title('欧陆风云4贸易路线图生成器V0.1.2')
 
     st.text("本应用目前还在测试中，仅对1.34版本无mod的存档进行过测试，不保证应用稳定性。")
